@@ -16,3 +16,11 @@ CREATE TABLE eew_output (
   sensor_ids VARCHAR[],
   time_entered DOUBLE PRECISION
 );
+
+CREATE TABLE earthquake_events (
+  event_id VARCHAR NOT NULL PRIMARY KEY,
+  timestamp TIMESTAMPTZ NOT NULL,
+  latitude DOUBLE PRECISION NOT NULL,
+  longitude DOUBLE PRECISION NOT NULL,
+  intensity DOUBLE PRECISION NOT NULL
+);
