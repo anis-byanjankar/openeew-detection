@@ -19,8 +19,8 @@ CREATE TABLE eew_output (
 
 CREATE TABLE earthquake_events (
   event_id VARCHAR NOT NULL PRIMARY KEY,
-  timestamp TIMESTAMPTZ NOT NULL,
-  latitude DOUBLE PRECISION NOT NULL,
-  longitude DOUBLE PRECISION NOT NULL,
-  intensity DOUBLE PRECISION NOT NULL
+  eq_timestamp TIMESTAMPTZ NOT NULL,
+  eq_latitude DOUBLE PRECISION NOT NULL,
+  eq_longitude DOUBLE PRECISION NOT NULL,
+  eq_intensity DOUBLE PRECISION NOT NULL
 );
