@@ -1,14 +1,100 @@
+#MQTT Load Balancers for Kubernetes on IBM Cloud Classic and Gen2
 apiVersion: v1
 kind: Service
 metadata:
-  name: openeew
-  labels:
-    k8s-app: openeew
+ name: openeew-mqtt-lb
+ annotations:
+   service.kubernetes.io/ibm-load-balancer-cloud-provider-enable-features: "nlb"
 spec:
+ type: LoadBalancer
+ selector:
+    app: openeew-mqtt-test
+ ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 1883
+  - name: https
+    protocol: TCP
+    port: 443
+ externalTrafficPolicy: Cluster
+
+---
+#Postgres Load Balancers for Kubernetes on IBM Cloud Classic and Gen2
+apiVersion: v1
+kind: Service
+metadata:
+ name: openeew-psql-lb
+ annotations:
+   service.kubernetes.io/ibm-load-balancer-cloud-provider-enable-features: "nlb"
+spec:
+ type: LoadBalancer
+ selector:
+    app: openeew-psql-test
+ ports:
+  - name: http
+    protocol: TCP
+    port: 80
+    targetPort: 5432
+  - name: https
+    protocol: TCP
+    port: 443
+ externalTrafficPolicy: Cluster
+
+---
+
+# Deploy MQTT container
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeew-mqtt-test
+  namespace: #Your namespace
+  labels:
+    app: openeew-mqtt
+spec:
+  replicas: 1
   selector:
-    k8s-app: openeew
-  type: NodePort
-  ports:
-   - port: 1883
-     nodePort: 31883
-     name: mqtt
+    matchLabels:
+      app: openeew-mqtt-test
+  template:
+    metadata:
+      labels:
+        app: openeew-mqtt-test
+    spec:
+      containers:
+      - name: openeew-mqtt-test
+        image: # Your container location. For example us.icr.io/openeew-detection/mqtt:dev
+        env:
+            - name: username
+              value: #your username
+            - name: password
+              value: #your password
+---
+
+# Deploy Postgres container
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openeew-psql-test
+  namespace: #Your namespace
+  labels:
+    app: openeew-psql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openeew-psql-test
+  template:
+    metadata:
+      labels:
+        app: openeew-psql-test
+    spec:
+      containers:
+      - name: openeew-psql-test
+        image: # Your container location. For example us.icr.io/openeew-detection/psql:dev
+        env:
+            - name: username
+              value: #your username
+            - name: password
+              value: #your password
+---
