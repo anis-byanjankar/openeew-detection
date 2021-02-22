@@ -44,14 +44,14 @@ While your cluster is provisioning, set up your local workstation with the clien
 
 ## Run a deployment containing the Docker container
 
-You can now deploy the `openeew/dashboard` app to your cluster.
+You can now deploy the `openeew/postgres` and `openeew/mqtt` apps to your cluster.
 
 - Select your cluster from the [cluster list](https://cloud.ibm.com/kubernetes/clusters) to open the details for your cluster.
 - Click **Kubernetes dashboard**.
 - From the menu bar, click the **Create new resource** icon (+).
-  - Update the **container image** in [openeew-dashboard YAML](openeew-dashboard.yaml)
+  - Update the **container image** in [openeew YAML](openeew.yaml)
   - If using a private image registry, update the **imagePullSecrets**
-  - Copy the [openeew-dashboard YAML](openeew-dashboard.yaml)
-  - In the **Create from input** box, paste the openeew-dashboard YAML that you copied in the previous step.
+  - Copy the [openeew YAML](openeew.yaml)
+  - In the **Create from input** box, paste the `openeew.yml` that you copied in the previous step.
   - Click **Upload**. The node port service and deployment is created.
 - From the menu, click **Service > Services**. If using the defaults in the sample, the MQTT service will be named **openeew-mqtt-lb** and the Postgres service will be named **openeew-psql-lb**. Under the **External Endpoints** column, take note of the IP and and Port values in the form IP:Port. For example, `169.xx.xx.xxx:yy ` indicates your IP is `169.xx.xx.xxx` and your port is `yy`.
